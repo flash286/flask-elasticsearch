@@ -2,7 +2,7 @@
 Flask-ElasticSearch
 ===================
 
-Integrates ``pyelasticsearch`` with Flask (a very thin wrapper).
+Integrates ``elasticsearch`` with Flask (a very thin wrapper).
 
 Installation
 ============
