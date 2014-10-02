@@ -23,5 +23,5 @@ The only configuration is `ELASTICSEARCH_URL`, defaults to `http://localhost:920
 Development
 ===========
 
-Source code is hosted on `GitHub <https://github.com/kazoup/flask-elasticsearch>`_
+Source code is hosted on `GitHub <https://github.com/flash286/flask-elasticsearch>`_
 (contributions are welcome).
