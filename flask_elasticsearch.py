@@ -1,5 +1,5 @@
 from flask import current_app
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, Urllib3HttpConnection
 
 
 class ElasticSearch(object):
@@ -13,11 +13,17 @@ class ElasticSearch(object):
     def init_app(self, app):
         app.config.setdefault('ELASTICSEARCH_URL', 'http://localhost:9200/')
 
-        # using the app factory pattern _app_ctx_stack.top is None so what
-        # do we register on? app.extensions looks a little hackish (I don't
-        # know flask well enough to be sure), but that's how it's done in
-        # flask-pymongo so let's use it for now.
-        app.extensions['elasticsearch'] = Elasticsearch(app.config['ELASTICSEARCH_URL'])
+        params = {
+            "host": app.config['ELASTICSEARCH_URL']
+        }
+
+        if ['ELASTICSEARCH_USER', 'ELASTICSEARCH_PASSWORD'] in app.config:
+            params.update({
+                "http_auth":(app.config['ELASTICSEARCH_USER'], app.config['ELASTICSEARCH_PASSWORD'])
+            })
+
+        transport = Urllib3HttpConnection(**params)
+        app.extensions['elasticsearch'] = Elasticsearch(connection_class=transport)
 
     def __getattr__(self, item):
         if not 'elasticsearch' in current_app.extensions.keys():
