@@ -17,9 +17,9 @@ class ElasticSearch(object):
             "host": app.config['ELASTICSEARCH_URL']
         }
 
-        if ['ELASTICSEARCH_USER', 'ELASTICSEARCH_PASSWORD'] in app.config:
+        if 'ELASTICSEARCH_USER' in app.config and 'ELASTICSEARCH_PASSWORD' in app.config:
             params.update({
-                "http_auth":(app.config['ELASTICSEARCH_USER'], app.config['ELASTICSEARCH_PASSWORD'])
+                "http_auth": (app.config['ELASTICSEARCH_USER'], app.config['ELASTICSEARCH_PASSWORD'])
             })
 
         transport = Urllib3HttpConnection(**params)
