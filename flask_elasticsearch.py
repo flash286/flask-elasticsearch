@@ -1,5 +1,5 @@
 from flask import current_app
-from elasticsearch import Elasticsearch, Urllib3HttpConnection
+from elasticsearch import Elasticsearch, RequestsHttpConnection
 
 
 class ElasticSearch(object):
@@ -14,14 +14,15 @@ class ElasticSearch(object):
         app.config.setdefault('ELASTICSEARCH_URL', 'http://localhost:9200/')
 
         params = {
-            "host": app.config['ELASTICSEARCH_URL']
         }
 
         if 'ELASTICSEARCH_USER' in app.config.keys() and 'ELASTICSEARCH_PASSWORD' in app.config.keys():
             params.update({
                 "http_auth": (app.config['ELASTICSEARCH_USER'], app.config['ELASTICSEARCH_PASSWORD'])
             })
-        app.extensions['elasticsearch'] = Elasticsearch(transport_class=Urllib3HttpConnection, **params)
+        app.extensions['elasticsearch'] = Elasticsearch(
+            app.config['ELASTICSEARCH_URL'], transport_class=RequestsHttpConnection, **params
+        )
 
     def __getattr__(self, item):
         if not 'elasticsearch' in current_app.extensions.keys():
