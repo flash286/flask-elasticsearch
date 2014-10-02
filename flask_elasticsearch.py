@@ -17,7 +17,7 @@ class ElasticSearch(object):
             "host": app.config['ELASTICSEARCH_URL']
         }
 
-        if 'ELASTICSEARCH_USER' in app.config and 'ELASTICSEARCH_PASSWORD' in app.config:
+        if 'ELASTICSEARCH_USER' in app.config.keys() and 'ELASTICSEARCH_PASSWORD' in app.config.keys():
             params.update({
                 "http_auth": (app.config['ELASTICSEARCH_USER'], app.config['ELASTICSEARCH_PASSWORD'])
             })
