@@ -21,9 +21,7 @@ class ElasticSearch(object):
             params.update({
                 "http_auth": (app.config['ELASTICSEARCH_USER'], app.config['ELASTICSEARCH_PASSWORD'])
             })
-
-        transport = Urllib3HttpConnection(**params)
-        app.extensions['elasticsearch'] = Elasticsearch(connection_class=transport)
+        app.extensions['elasticsearch'] = Elasticsearch(transport_class=Urllib3HttpConnection, **params)
 
     def __getattr__(self, item):
         if not 'elasticsearch' in current_app.extensions.keys():
