@@ -21,7 +21,7 @@ class ElasticSearch(object):
                 "http_auth": (app.config['ELASTICSEARCH_USER'], app.config['ELASTICSEARCH_PASSWORD'])
             })
         app.extensions['elasticsearch'] = Elasticsearch(
-            app.config['ELASTICSEARCH_URL'], transport_class=RequestsHttpConnection, **params
+            [app.config['ELASTICSEARCH_URL']], **params
         )
 
     def __getattr__(self, item):
