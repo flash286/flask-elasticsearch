@@ -16,7 +16,7 @@ class ElasticSearch(object):
         params = {
         }
 
-        if 'ELASTICSEARCH_USER' in app.config.keys() and 'ELASTICSEARCH_PASSWORD' in app.config.keys():
+        if app.config.get('ELASTICSEARCH_USER', False) and app.config.get('ELASTICSEARCH_PASSWORD', False):
             params.update({
                 "http_auth": (app.config['ELASTICSEARCH_USER'], app.config['ELASTICSEARCH_PASSWORD'])
             })
@@ -28,3 +28,4 @@ class ElasticSearch(object):
         if not 'elasticsearch' in current_app.extensions.keys():
             raise Exception('not initialised, did you forget to call init_app?')
         return getattr(current_app.extensions['elasticsearch'], item)
+
